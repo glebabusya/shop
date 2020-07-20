@@ -4,7 +4,13 @@ from . import models
 
 @admin.register(models.Item)
 class ItemAdmin(admin.ModelAdmin):
-    pass
+    actions = ['set_featured', 'set_unfeatured']
+
+    def set_featured(self, request, queryset):
+        queryset.update(featured=True)
+
+    def set_unfeatured(self, request, queryset):
+        queryset.update(featured=False)
 
 
 @admin.register(models.Brand)
