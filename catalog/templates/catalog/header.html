@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {%load static%}
+    <link rel="stylesheet" href="{%static 'css/header.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="{%static 'javascript/header-dropdown.js'%}"></script>
+</head>
+<body>
+<div>
+    <div class="topbar">
+        <div class="logo">
+            <img src="{%static 'images/logo.png'%}">
+        </div>
+
+        <div class="search-box">
+            <div class="btn category-dropdown" align="center">
+                <button class="button" onclick="CategoryDropdown()">
+                    <i class="fa fa-list" aria-hidden="true"
+                       style="font-size:18px; margin-right: 16px; margin-left: -8px;"></i>
+
+                    <span style="font-size:16px; ">Categories</span>
+                    <i class="fa fa-angle-down" aria-hidden="true" style="font-size:18px; margin-left: 16px;"></i>
+                </button>
+
+                <div class="category-dropdown-content" id="Category-Dropdown">
+
+                    {%for category in categories%}
+                    <div class="category-dropdown-categories">
+                        <a href="{%url 'category' category.name%}">
+                            <img src="{{category.item_set.get.image_1.url}}">
+                            <span>{{category.name}}</span>
+                        </a>
+                    </div>
+                    {%endfor%}
+                </div>
+            </div>
+            <form class="input">
+                <input type="text" name="search" placeholder="Search...">
+
+            </form>
+
+        </div>
+        <div class="tool-bar">
+            <div class="tool" align="center">
+                <a href>
+                    <div style="margin-top:5px;">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i><br>
+                        <span class="tools">location</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="tool" align="center">
+                <a href>
+                    <div style="margin-top:5px; ">
+                        <div class="round">2</div>
+                        <i class="fa fa-heart-o" aria-hidden="true" style="z-index:2; position: relative;"></i><br>
+                        <span class="tools">Wishlist</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="tool user-tool-dropdown" align="center">
+                <a href>
+                    <div style="margin-top:5px;">
+                        <i class="fa fa-user-o" aria-hidden="true"></i><br>
+                        <span style="font-size:17px;">Sign in / up</span>
+                    </div>
+
+                </a>
+                <div class="user-tool-dropdown-content">
+                    Sign in to your account or register new one to have full control over your orders, receive bonuses
+                    and more.
+                    <a href><h3 class="sign-in">Sign in</h3></a>
+                    New customer? <a href class="dropdown-content-register">Register</a>
+                </div>
+            </div>
+
+            <div class="tool cart-tool-dropdown" align="center">
+                <a href>
+                    <div style="margin-top:5px;">
+                        <div class="round" style="background-color:#05f; border: 1px solid #05f; color:white;">
+                            {{categories.count}}
+                        </div>
+                        <i class="fa fa-shopping-cart" aria-hidden="true"
+                           style="z-index:2; position: relative;"></i><br>
+                        <span class="tools">Cart</span>
+
+                    </div>
+                </a>
+                <div class="cart-tool-dropdown-content">
+                    {%for category in categories%}
+                    <div class="topbar-cart-container">
+                        <a href="{%url 'item' category.item_set.get.id%}"><img
+                                src="{{category.item_set.get.image_1.url}}"></a>
+                        <div style="width:100%; display:block; text-align:left;position:relative;">
+                            <a href="{%url 'item' category.item_set.get.id%}"><span class="tool-cart-item-name">{{category.item_set.get.name}}</span></a><br>
+                            <span style="position: absolute; bottom:10px">{{category.item_set.get.amount}} x ${{category.item_set.get.price}}</span>
+                        </div>
+                    </div>
+                    {%endfor%}
+                    <p style="text-align: right; font-size:16px;">
+                        Subtotal: <span style="color:black">$2,548.50</span>
+                    </p>
+                    <a href><h4 class="cart-checkout">Checkout </h4></a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+</body>
+</html>
