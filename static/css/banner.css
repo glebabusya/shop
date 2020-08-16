@@ -1,0 +1,119 @@
+.banner{
+    width:100%;
+    display: flex;
+    padding-top: 70px;
+    min-height: 580px;
+    background-size: cover;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.main-image-block{
+    right: 10%;
+    position: absolute;
+}
+
+.logo-image-block{
+    text-align: left;
+    display: block;
+    width: auto;
+    position: absolute;
+    color: #505050;
+    left: 10%
+
+}
+
+.logo-image-block span{
+    color: black;
+    font-size: 34px;
+    font-weight: bold;
+}
+
+.logo-image-block a{
+    text-decoration: none;
+}
+
+.logo-image-block img{
+    padding-bottom: 20px;
+    width: 150px;
+    height: auto;
+}
+
+.banner-text{
+    font-size: 32px;
+    line-height: 1.5;
+}
+
+.logo-image-block .blue-btn{
+    margin-top: 20px;
+    width: 140px;
+    padding: 15px 0px 15px 0px;
+    text-align:center;
+
+}
+
+.dots{
+    height: 22px;
+    width: auto;
+    display: flex;
+    right: 110px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px 0px 0px 4px;
+    background-color: white;
+    position: absolute;
+    padding: 12px 0px 12px 0px;
+    line-height: 44px;
+    top: 650px;
+}
+
+.dots-btn-lt{
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    right: 64px;
+}
+
+.dots-btn-gt{
+    border: 1px solid #e5e5e5;
+    border-radius: 0px 4px 0px 4px;
+    right: 18px;
+}
+.dots-btn-gt, .dots-btn-lt{
+    height: 46px;
+    width: 46px;
+    background-color: white;
+    position: absolute;
+    text-align: center;
+    line-height: 44px;
+    font-size: 20px;
+    z-index: 10;
+    top: 650px;
+}
+
+.dots-btn-gt:hover , .dots-btn-lt:hover{
+    cursor: pointer;
+    background-color: #f8f9fa;
+
+}
+
+.dot-active{
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    background-color: #505050;
+    border: 1px solid #505050;
+    margin: 6px;
+}
+
+.dot-unactive{
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    background-color: #7e7e7e;
+    border: 1px solid #7e7e7e;
+    margin: 6px;
+}
+
+.dot-active:hover, .dot-unactive:hover{
+    cursor: pointer;
+}

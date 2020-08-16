@@ -1,0 +1,183 @@
+.left-side{
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+
+}
+
+.main-block{
+    display: flex;
+    padding-top: 40px;
+    max-width: 1170px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #505050
+}
+
+.main-side{
+    text-align: center;
+    padding: 30px;
+
+}
+
+.left-side h3{
+    border-bottom: 1px solid #0046d1;
+    font-weight: normal;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+
+}
+
+.categories{
+    padding: 0;
+    list-style: none;
+}
+
+.categories li{
+    padding: 5px;
+    padding-left: 0px;
+}
+
+.shop-sorting{
+    padding-left: 26px;
+    width: 100%;
+    display: flex;
+    color: #999;
+    padding-bottom: 20px;
+}
+
+.shop-sorting label{
+    padding-top: 16px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.selection{
+    display:flex;
+}
+
+select{
+
+    background-image: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMS4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDE4NS4zNDQgMTg1LjM0NCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTg1LjM0NCAxODUuMzQ0OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCI+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTkyLjY3MiwxNDQuMzczYy0yLjc1MiwwLTUuNDkzLTEuMDQ0LTcuNTkzLTMuMTM4TDMuMTQ1LDU5LjMwMWMtNC4xOTQtNC4xOTktNC4xOTQtMTAuOTkyLDAtMTUuMTggICAgYzQuMTk0LTQuMTk5LDEwLjk4Ny00LjE5OSwxNS4xOCwwbDc0LjM0Nyw3NC4zNDFsNzQuMzQ3LTc0LjM0MWM0LjE5NC00LjE5OSwxMC45ODctNC4xOTksMTUuMTgsMCAgICBjNC4xOTQsNC4xOTQsNC4xOTQsMTAuOTgxLDAsMTUuMThsLTgxLjkzOSw4MS45MzRDOTguMTY2LDE0My4zMjksOTUuNDE5LDE0NC4zNzMsOTIuNjcyLDE0NC4zNzN6IiBmaWxsPSIjNTA1MDUwIi8+Cgk8L2c+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==);
+    display: block;
+    padding: .75rem 2.5rem .75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-appearance: none;/* Chrome */
+    -moz-appearance: none;/* Firefox */
+    appearance: none;
+    font-size: 1rem;
+    color: #444;
+    background-repeat: no-repeat;
+    background-size: 10px 10px;
+    background-position: center right 15px;
+}
+
+
+select:focus {
+    border-color: #05f;
+}
+
+.search-btn{
+    margin-left: 20px;
+    padding: 0;
+}
+
+.showing-items-text{
+    padding: 16px;
+    padding-left: 0px;
+    color: #505050;
+    margin-left: -16px;
+}
+
+.items-grid{
+    max-width: 1170px;
+    flex-wrap: wrap;
+    display: flex;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+
+.right-position{
+    margin-left: auto;
+    right: 60px;
+    margin-top: 16px;
+    position: relative;
+    max-width: 200px;
+    padding-left: 20px;
+
+}
+
+.searching-value{
+    padding-left: 0px;
+    color: black;
+}
+
+.paginating{
+    padding-bottom: 10px;
+    width: 100%;
+    height: 40px;
+    display: flex;
+}
+
+.pages{
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.page{
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    margin: 2px;
+}
+
+.page:hover{
+    border: 1px solid #e5e5e5;;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    margin: 1px;
+}
+
+.page a{
+    text-decoration: none;
+    display: inline-block;
+    color: #505050;
+    width: 36px;
+    height: 36px;
+}
+
+.active-page{
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    margin: 2px;
+    background-color: #05f;
+    border: 1px solid #05f;
+    border-radius: 5px;
+    color: white;
+}
+
+.page-btn{
+    text-decoration: none;
+    color: #505050;
+    font-size: 13px;
+    border: 1px solid #e5e5e5;;
+    border-radius: 5px;
+    margin: 4px;
+    margin-top: 16px;
+    line-height: 36px;
+    height: 36px;
+    width: 72px;
+}
+
+.page-btn:hover{
+    background-color: #f5f5f5;
+}

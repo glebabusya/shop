@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from . import models
 
 
@@ -23,6 +24,6 @@ class CategoryAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(models.Comments)
+@admin.register(models.Comment)
 class CommentsAdmin(admin.ModelAdmin):
     pass

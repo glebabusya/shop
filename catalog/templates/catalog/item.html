@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% extends "main/home_page.html" %}
+    {%load static%}
+    {%load catalog_tags%}
+</head>
+<body>
+{%block body%}
+<div class="container">
+    <div class="product-gallery">
+        {%if item.discount > 0%}
+        <div class="sale" style="margin-right: auto;">
+            Sale
+        </div>
+        {%endif%}
+        <div>
+            <img class="main-item-img" src="{{item.image_1.url}}">
+        </div>
+
+        <div class="item-images">
+            <div class="item-image image-active">
+                <img src="{{item.image_1.url}}">
+            </div>
+            <div class="item-image">
+                <img src="{{item.image_2.url}}">
+            </div>
+            <div class="item-image">
+                <img src="{{item.image_3.url}}">
+            </div>
+        </div>
+    </div>
+
+    <div class="item-info">
+        <div class="item-category">
+            <a class="item-href" style="color:#999;" href="{%url 'catalog' item.category.name%}">
+                <i class="fa fa-tag" aria-hidden="true"></i> {{item.category.name}}
+            </a>
+        </div>
+
+        <h2 style="font-weight: normal">
+            {{item.name}}
+        </h2>
+        <div class="discount">
+            {%if item.discount > 0%}
+            <span class="muted-text text-crossed">${{item.original_price}}  </span>
+            {%endif%}
+            <span>${{item.price}}</span>
+        </div>
+
+        <div class="description">
+            {{item.description}}
+        </div>
+
+        <div style="margin-top: 20px;">
+            <span class="quantity">Quantity</span>
+            <form class="selection" style="margin-top: 10px;" method="post">
+                {%csrf_token%}
+                <select name="selection" style="width: 165px;">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+                <input class="add-to-cart-submit" type="submit" value="Add to Cart">
+            </form>
+        </div>
+
+        <div class="item-id">
+            <span style="font-weight: bold;">SKU:</span> #{{item.id}}
+        </div>
+
+        <form method="post">
+            {%csrf_token%}
+            <input class="wishlist-btn" type="submit" name="wishlist" value="To Wishist">
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div class="rating-box">
+        <div class="text-center">
+            <p class="absolute-rating">{{item.absolute_rating}}</p>
+            <div class="rating" style="margin-right: auto; padding-left: 0px; margin-left: 0px">
+                {%if item.rating_round > 0%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                {%if item.rating_round > 1%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                {%if item.rating_round > 2%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                {%if item.rating_round > 3%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                {%if item.rating_round > 4%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+            </div>
+        </div>
+        <div class="rating-body">
+            {%for mark in marks%}
+            <div class="rating-row">
+
+                <span class="mark">{{mark}} stars</span><span class="muted-text"> - {%rating_amount item mark%}</span>
+                <div class="line">
+                    <div class="progress-line" style="width: {%rating_percent item mark%}%"></div>
+                </div>
+            </div>
+            {%endfor%}
+            <a class="item-href" href>
+                <div class="review">
+                    Leave a Review
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="comments-block">
+        <h3 class="reviews">
+            Latest Reviews
+        </h3>
+        {%for comment in comments%}
+        <div class="comment">
+            <img src="{%static 'images/user.jpg'%}">
+            <div class="comment-body">
+                <div class="comment-txt">
+                    {{comment.comment}}
+                    <div class="rating">
+                        {%if comment.rating > 0%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                        {%if comment.rating > 1%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                        {%if comment.rating > 2%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                        {%if comment.rating > 3%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                        {%if comment.rating > 4%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                    </div>
+                </div>
+                <div class="muted-text bottom">
+                    {{comment.user}}
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+        <a href class="item-href">
+            <div class="all-reviews">
+                View All Reviews
+            </div>
+        </a>
+    </div>
+</div>
+
+<h2 class="featured-text">You May Also Like</h2>
+<div class="featured-list">
+    {%for item in items%}
+    {{item.rating}}
+    <div class="featured-container">
+        <div class="sale-rating">
+            {%if item.discount > 0%}
+            <div class="sale">
+                Sale
+            </div>
+
+            {%else%}
+            <div class="sale" style="background-color:white;">
+                Sale
+            </div>
+
+            {%endif%}
+
+            <div class="rating">
+                {%if item.rating_round > 2%}
+                ☆ ☆ ☆
+                {%if item.rating_round > 3%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                {%if item.rating_round > 4%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                {%endif%}
+            </div>
+
+        </div>
+
+        <a class="product-img" href="{%url 'item' item.id%}">
+            <img src="{{item.image_1.url}}">
+        </a>
+
+        <div class="product-cart-body">
+            <div>
+                <a href="{%url 'catalog' item.category.name%}"><span>{{item.category.name}}</span></a><br>
+            </div>
+            <a href="{%url 'item' item.id%}">{{item.name|cut:20}}</a>
+
+            <h3 class="catalog-price">
+                {%if item.discount > 0%}
+                <span class="crossed-price">${{item.original_price}}</span> ${{item.price}}
+                {%else%}
+                ${{item.price}}
+                {%endif%}
+            </h3>
+        </div>
+
+    </div>
+    {%endfor%}
+</div>
+
+{%endblock%}
+</body>
+</html>

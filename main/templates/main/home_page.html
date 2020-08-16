@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    {%load static%}
+    {%load catalog_tags%}
+    <link rel="stylesheet" href="{%static 'css/header.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{%static 'css/banner.css'%}">
+    <link rel="stylesheet" href="{%static 'css/main.css'%}">
+    <link rel="stylesheet" href="{%static 'css/footer.css'%}">
+    <link rel="stylesheet" href="{%static 'css/catalog.css'%}">
+    <link rel="stylesheet" href="{%static 'css/item.css'%}">
+    <script src="{%static 'javascript/header-dropdown.js'%}"></script>
+
+
+</head>
+<body>
+<header>
+    <div class="logo">
+        <a href="{%url 'main'%}">
+            <img class="logo-img" src="{%static 'images/logo.png'%}">
+        </a>
+    </div>
+
+    <div class="searching-box">
+        <div class="btn">
+            <button class="button" onclick="CategoryDropdown()">
+                <i class="fa fa-list icon" aria-hidden="true"></i>
+                <span>Categories </span>
+                <i class="fa fa-angle-down icon" aria-hidden="true"></i>
+            </button>
+            <div class="category-dropdown-content" id="Category-Dropdown">
+                {%for category in categories%}
+                <div class="topbar-category">
+                    <a class="item-href" href="{%url 'catalog' category.name%}">
+                        <img src="{{category.item_set.first.image_1.url}}"><br>
+                        {{category.name}}
+                    </a>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+        <form class="input-form" method="post">
+            {%csrf_token%}
+            <input placeholder="Search..." type="text" name="search">
+        </form>
+    </div>
+
+    <div class="tools">
+        <div class="tool">
+            <img src="{%static 'images/us_flag.png'%}"><br>
+            <span style="margin-top:-10px;">{{language}}</span>
+        </div>
+
+        <div class="tool user-tool-dropdown">
+            <a href="">
+                <i class="fa fa-user-o" aria-hidden="true"></i><br>
+                <span>sign in / up</span>
+            </a>
+            <div class="user-tool-dropdown-content">
+                <p style="margin-bottom: -10px;">Sign in to your account or register new one to have full control over
+                    your orders, receive bonuses and more.</p><br>
+                <a href>
+                    <h3 class="blue-btn">
+                        Sign in
+                    </h3>
+                </a>
+                <p>
+                    New customer?
+                    <a href class="muted">
+                        register
+                    </a>
+                </p>
+            </div>
+        </div>
+
+
+        <div class="tool cart-tool-dropdown">
+            <a href="">
+
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i><br>
+                <span class="round">{{categories.count}}</span>
+                <span>cart</span>
+            </a>
+            <div class="cart-tool-dropdown-content">
+                {%for item in items%}
+                <div class="cart-topbar">
+                    <a href="{%url 'item' item.id%}">
+                        <img src="{{item.image_1.url}}">
+                    </a>
+                    <div class="cart-topbar-info">
+                        <a style="color: black" class="item-href" href="{%url 'item' item.id%}">
+                            {{item.name | cut:20}}<br>
+                        </a>
+                        <span>{{item.all.amount}} x ${{item.price}}</span>
+                    </div>
+
+                </div>
+                {%endfor%}
+
+                <div class="cart-topbar-total-price">
+                    Subtotal: <span style="color: black; font-size: 16px;">${%average_price items%}</span>
+                </div>
+
+                <div style="font-size: 16px;padding-right: 20px; padding-left: 20px;">
+                    <h3 class="blue-btn">expand cart</h3>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</header>
+<main class="main-content">
+    {%block body%}
+
+    <div class="banner" style="background-image:url({%static 'images/main-bg.jpg'%})">
+        <div class="logo-image-block">
+            <img src="{%static 'images/logo02.png'%}">
+            <div class="banner-text">
+                Google Home - Smart Speaker<br>
+                starting at <span>$129.00</span>
+            </div>
+            <a href="">
+                <div class="blue-btn">
+                    Shop now
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+
+                </div>
+            </a>
+
+        </div>
+        <div class="main-image-block">
+            <img src="{%static 'images/banner1.png'%}"><br>
+        </div>
+        <div class="dots">
+            <div class="dot-active"></div>
+            <div class="dot-unactive"></div>
+            <div class="dot-unactive"></div>
+        </div>
+        <div class="dots-btn-lt">
+            &lt;
+        </div>
+        <div class="dots-btn-gt">
+            &gt;
+        </div>
+    </div>
+    </div>
+
+    <h2 class="featured-text">Featured Products</h2>
+    <div class="featured-list">
+        {%for item in items%}
+        {{item.rating}}
+        <div class="featured-container">
+            <div class="sale-rating">
+                {%if item.discount > 0%}
+                <div class="sale">
+                    Sale
+                </div>
+
+                {%else%}
+                <div class="sale" style="background-color:white;">
+                    Sale
+                </div>
+
+                {%endif%}
+
+                <div class="rating">
+                    {%if item.rating_round > 2%}
+                    ☆ ☆ ☆
+                    {%if item.rating_round > 3%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                    {%if item.rating_round > 4%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                    {%endif%}
+                </div>
+
+            </div>
+
+            <a class="product-img" href="{%url 'item' item.id%}">
+                <img src="{{item.image_1.url}}">
+            </a>
+
+            <div class="product-cart-body">
+                <div>
+                    <a href="{%url 'catalog' item.category.name%}"><span>{{item.category.name}}</span></a><br>
+                </div>
+                <a href="{%url 'item' item.id%}">{{item.name|cut:20}}</a>
+
+                <h3 class="catalog-price">
+                    {%if item.discount > 0%}
+                    <span class="crossed-price">${{item.original_price}}</span> ${{item.price}}
+                    {%else%}
+                    ${{item.price}}
+                    {%endif%}
+                </h3>
+            </div>
+
+        </div>
+        {%endfor%}
+    </div>
+    <div class="text-center">
+        <a href="{%url 'catalog'%}">
+            View All Products
+        </a>
+    </div>
+
+    <section class="popular-brands">
+        <h2 class="banner-text" style="font-weight: 100">Popular Brands</h2>
+        <div class="brands-line">
+            <img src="{%static 'images/hp_logo.png'%}">
+            <img src="{%static 'images/ibm_logo.png'%}">
+            <img src="{%static 'images/bosch_logo.png'%}">
+            <img src="{%static 'images/canon_logo.png'%}">
+            <img src="{%static 'images/samsung_logo.png'%}">
+        </div>
+    </section>
+
+    <section class="advantages">
+        <div class="row">
+            <div class="advantages_inner">
+                <img src="{%static 'images/free_worldwide.png'%}"><br>
+                <span class="advantage-text">Free Worldwide Shipping</span><br>
+                <span class="advantage-text-small">Free shipping for all orders over $100</span>
+            </div>
+
+            <div class="advantages_inner">
+                <img src="{%static 'images/money_back.png'%}"><br>
+                <span class="advantage-text">Money Back Guarantee</span><br>
+                <span class="advantage-text-small">We return money within 30 days</span>
+            </div>
+
+            <div class="advantages_inner">
+                <img src="{%static 'images/customer_support.png'%}"><br>
+                <span class="advantage-text">24/7 Customer Support</span><br>
+                <span class="advantage-text-small">Friendly 24/7 customer support</span>
+            </div>
+
+            <div class="advantages_inner">
+                <img src="{%static 'images/secure_online.png'%}"><br>
+                <span class="advantage-text">Secure Online Payment</span><br>
+                <span class="advantage-text-small">We posess SSL / Secure Certificate</span>
+            </div>
+        </div>
+    </section>
+</main>
+{%endblock%}
+<footer class="site-footer">
+    <div class="site-footer-container">
+        <div class="footer_inner">
+            <h3 class="widget-title">Get In Touch With Us</h3>
+            <p>Phone: +375 (44) 799 5414</p>
+            <ul class="list-unstyled">
+                <li><span>Monday-Friday</span>: 9.00 am - 8.00 pm</li>
+                <li><span>Saturday</span>: 10.00 am - 6.00 pm</li>
+            </ul>
+            <a href="">glebabusya@mail.ru</a>
+            <div class="social-row">
+                <a href>
+                    <div class="social">
+                        <i class="fa fa-facebook social-icon" aria-hidden="true"></i>
+                    </div>
+                </a>
+
+                <a href>
+                    <div class="social">
+                        <i class="fa fa-instagram social-icon" aria-hidden="true"></i>
+                    </div>
+                </a>
+
+                <a href>
+                    <div class="social">
+                        <i class="fa fa-twitter social-icon" aria-hidden="true"></i>
+                    </div>
+                </a>
+
+                <a href>
+                    <div class="social">
+                        <i class="fa fa-vk social-icon" aria-hidden="true"></i>
+
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="footer_inner">
+            <h3 class="widget-title">Our Mobile App</h3>
+            <a class="link-download" href>
+                <div class="download-btn apple-icon">
+                    <span class="download-subtitle">
+                        Download on the
+                    </span><br>
+                    <span class="download-title">
+                        App Store
+                    </span>
+                </div>
+            </a>
+
+            <a class="link-download" href>
+                <div class="download-btn market-icon">
+                    <span class="download-subtitle">
+                        Download on the
+                    </span><br>
+                    <span class="download-title">
+                        Google Play
+                    </span>
+                </div>
+            </a>
+
+            <a class="link-download" href>
+                <div class="download-btn windows-icon">
+                    <span class="download-subtitle">
+                        Download on the
+                    </span><br>
+                    <span class="download-title">
+                        Windows Store
+                    </span>
+                </div>
+            </a>
+
+        </div>
+        <div class="footer_inner">
+            <h3 class="widget-title">Be Informed</h3>
+            <form method="post" class="footer-form">
+                {%csrf_token%}
+                <input class="input-informed" type="email" placeholder="Your e-mail" name="mail">
+                <input type="submit" class="footer-submit" value="Subscribe">
+            </form>
+            <span class="footer-email-text">
+                Subscribe to our Newsletter to receive early discount offers, latest news, sales and promo information.
+            </span>
+            <img src="{%static 'images/credit-cards-footer.png'%}">
+        </div>
+
+
+    </div>
+
+</footer>
+
+</body>
+</html>

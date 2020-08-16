@@ -1,6 +1,6 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.contrib.auth.models import User
 
 
 class Brand(models.Model):
@@ -41,11 +41,14 @@ class Item(models.Model):
 
     def absolute_rating(self):
         """Определение среднего рейтинга товара"""
-        comments = Comments.objects.filter(item=self)
+        comments = Comment.objects.filter(item=self)
         sum_rating = 0
         for comment in comments:
             sum_rating += comment.rating
         return round(sum_rating / (len(comments) or 1), 1)
+
+    def rating_round(self):
+        return round(self.absolute_rating())
 
 
 def rating_check(rate):
@@ -54,9 +57,9 @@ def rating_check(rate):
         raise ValidationError('Слишком большой рейтинг')
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    comment = models.CharField(max_length=2000, null=True, default=None)
+    comment = models.CharField(max_length=2000, null=True, default=None, blank=True)
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_query_name="comment")
     rating = models.IntegerField(validators=[rating_check])
 

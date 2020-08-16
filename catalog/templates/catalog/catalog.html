@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% extends "main/home_page.html" %}
+    {%load static%}
+    {%load catalog_tags%}
+
+
+</head>
+<body>
+
+{%block body%}
+<div class="main-block">
+    <div class="left-side">
+        <h3>Shop categories</h3>
+        <ul class="categories">
+            {%for category in categories%}
+
+            <a class="item-href" style="color: #505050;" href="{%url 'catalog' category.name%}">
+                <li>
+                    -{{category.name}}<span style="color:#999">({{category.item_set.all.count}})</span>
+                </li>
+            </a>
+            {%endfor%}
+        </ul>
+    </div>
+
+    <div class="main-side">
+        <div class="shop-sorting">
+            <label>Sort by:</label>
+            <form class="selection" method="post">
+                {%csrf_token%}
+                <select name="selection">
+                    <option>Popularity</option>
+                    <option>Low - High Price</option>
+                    <option>High - Low Price</option>
+                    <option>Average Rating</option>
+                </select>
+                <input style="width: 300px;" class="footer-submit" type="submit" value="Sort">
+            </form>
+            <label>Showing:</label><span class="showing-items-text">1 - 12 items</span>
+        </div>
+        <div style="font-size: 20px">
+            {%if searching is not None and searching != 'None'%}
+            <span class="showing-items-text">Searching:</span><label class="searching-value">{{searching}}</label>
+            {%endif%}
+        </div>
+        <div class="items-grid">
+            {%for item in items%}
+            {{item.rating}}
+            <div class="featured-container">
+                <div class="sale-rating">
+                    {%if item.discount > 0%}
+                    <div class="sale">
+                        Sale
+                    </div>
+
+                    {%else%}
+                    <div class="sale" style="background-color:white;">
+                        Sale
+                    </div>
+
+                    {%endif%}
+
+                    <div class="rating">
+                        {%if item.rating_round > 2%}
+                        ☆ ☆ ☆
+                        {%if item.rating_round > 3%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                        {%if item.rating_round > 4%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                        {%endif%}
+                    </div>
+
+                </div>
+
+                <a class="product-img" href="{%url 'item' item.id%}">
+                    <img src="{{item.image_1.url}}">
+                </a>
+
+                <div class="product-cart-body">
+                    <div>
+                        <a href="{%url 'catalog' item.category.name%}"><span>{{item.category.name}}</span></a><br>
+                    </div>
+                    <a href="{%url 'item' item.id%}">{{item.name|cut:20}}</a>
+
+                    <h3 class="catalog-price">
+                        {%if item.discount > 0%}
+                        <span class="crossed-price">${{item.original_price}}</span> ${{item.price}}
+                        {%else%}
+                        ${{item.price}}
+                        {%endif%}
+                    </h3>
+                </div>
+
+            </div>
+            {%endfor%}
+
+        </div>
+        <div class="paginating">
+            <ul class="pages">
+                {%for n in items.paginator.page_range%}
+                {%if page == n%}
+                <li class="active-page">
+                    {{n}}
+                </li>
+                {%else%}
+                <li class="page">
+                    <a href="{%url 'catalog' searching ordering n%}">
+                        {{n}}
+                    </a>
+                </li>
+                {%endif%}
+                {%endfor%}
+            </ul>
+            <div style="display: flex; margin-left: auto;">
+                {%if page > 1%}
+                <a class="page-btn" href="{%url 'catalog' searching ordering previous_page%}">
+                    &lt Previous
+                </a>
+                {%endif%}
+
+                {%if page < items.paginator.num_pages%}
+                <a class="page-btn" href="{%url 'catalog' searching ordering next_page%}">
+                    Next &gt
+                </a>
+                {%endif%}
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{%endblock%}
+
+</body>
+</html>
