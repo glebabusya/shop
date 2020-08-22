@@ -1,8 +1,11 @@
+from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from main.views import email_check
 from . import models
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 ORDERING = {
     'Popularity': 'description',
@@ -28,10 +31,26 @@ class ItemView(View):
         return render(request, 'catalog/item.html', context)
 
     def post(self, request, item_id):
-        email_check(request.POST.get('mail'), 'item', item_id)
+        email_check(request, 'item', item_id)
+
         search = request.POST.get('search')
         if search is not None and search != '':
             return redirect('catalog', search)
+
+        add_to_wishlist = request.POST.get('wishlist') == 'To Wishist'
+
+        add_to_cart = request.POST.get('selection')
+
+        if add_to_wishlist:
+            if request.user.is_authenticated:
+                messages.info(request, '<i class="fa fa-check-circle-o" aria-hidden="true"></i> Added to Wishlist')
+            else:
+                messages.error(request, 'Login or Register')
+        if isinstance(add_to_cart, str):
+            if request.user.is_authenticated:
+                messages.success(request, '<i class="fa fa-check-circle-o" aria-hidden="true"></i> Added to Cart')
+            else:
+                messages.error(request, '<i class="fa fa-ban" aria-hidden="true"></i> Login or Register')
         return redirect('item', item_id)
 
 
@@ -91,7 +110,7 @@ class CatalogView(View):
         return render(request, 'catalog/catalog.html', context)
 
     def post(self, request, searching=None, order=None, page=1):
-        email_check(request.POST.get('mail'), 'catalog', searching, order)
+        email_check(request, 'catalog', searching, order)
 
         search = request.POST.get('search')
         order = request.POST.get('selection')

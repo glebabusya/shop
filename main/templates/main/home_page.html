@@ -56,21 +56,21 @@
         </div>
 
         <div class="tool user-tool-dropdown">
-            <a href="">
+            <a href="{%url 'registration'%}">
                 <i class="fa fa-user-o" aria-hidden="true"></i><br>
                 <span>sign in / up</span>
             </a>
             <div class="user-tool-dropdown-content">
                 <p style="margin-bottom: -10px;">Sign in to your account or register new one to have full control over
                     your orders, receive bonuses and more.</p><br>
-                <a href>
+                <a href="{%url 'registration'%}">
                     <h3 class="blue-btn">
                         Sign in
                     </h3>
                 </a>
                 <p>
                     New customer?
-                    <a href class="muted">
+                    <a href="{%url 'registration'%}" class="muted">
                         register
                     </a>
                 </p>
@@ -324,7 +324,7 @@
             <h3 class="widget-title">Be Informed</h3>
             <form method="post" class="footer-form">
                 {%csrf_token%}
-                <input class="input-informed" type="email" placeholder="Your e-mail" name="mail">
+                <input class="input-informed" type="email" placeholder="Your e-mail" name="mail_to_send" required>
                 <input type="submit" class="footer-submit" value="Subscribe">
             </form>
             <span class="footer-email-text">

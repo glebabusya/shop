@@ -127,9 +127,12 @@ body{
     font-size: 20px;
     margin-top: 40px;
     margin-bottom: 40px;
+    display: flex;
 }
 
 .text-center a{
+    margin-left: auto;
+    margin-right: auto;
     text-decoration: none;
     color: #505050;
     border: 1px solid #e5e5e5;
@@ -201,4 +204,150 @@ body{
 .advantage-text-small{
     font-size: 16px;
     color: #999;
+}
+
+.login{
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 20px;
+    width: 560px;
+}
+
+.login-input:focus{
+    border: 1px solid blue;
+}
+
+.login-text{
+    margin: 20px;
+    font-size: 20px;
+}
+
+.login-form{
+    margin: 0px 10pxl;
+}
+
+.login-form label{
+    margin-left: 20px;
+}
+
+.login-form input{
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    width: 400px;
+    padding: 9.5px 0px 9.5px 40px;
+    font-size: 16px;
+    margin: 10px 20px;
+}
+
+.password-forgot{
+    color: #505050;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.registration{
+    margin-left: 20px;
+}
+
+.register-text{
+    margin: 20px;
+    font-size: 26px;
+}
+
+.register-info{
+    margin: 20px 0px;
+    font-size: 14px;
+    color: #505050;
+}
+
+.registration-form{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.registration-form p{
+    width: 220px;
+    margin: 10px 20px;
+}
+
+.registration-form p label{
+    color: #505050;
+    padding-left: 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.registration-form p input{
+    margin: 10px;
+    width: 180px;
+    padding: 9.5px 0px 9.5px 40px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+}
+
+.registration-form p input:focus{
+    border: 1px solid blue;
+}
+
+.errors{
+    display:flex;
+     height: 41px;
+     width: 100%;
+     position: relative
+}
+
+.errorlist{
+    display: none;
+}
+
+.messages{
+    list-style: none;
+    position: sticky;
+    bottom: 2%;
+    min-height: 2em;
+
+}
+
+.messages li{
+    margin-left: -20px;
+    text-align: center;
+    width: 160px;
+    opacity: 0;
+    border-radius: 4px;
+    animation: fadeOut 4s linear forwards;
+    padding: 10px
+}
+
+
+
+@keyframes fadeOut {
+
+    0%  { opacity: 0; }
+
+    10% { opacity: 1; }
+
+    90% { opacity: 1; transform: translateX(0px);}
+
+    99% { opacity: 0; transform: translateX(-30px);}
+
+    100% { opacity: 0; }
+}
+
+.info{
+    background-color: #e7f4e5;
+    border: 1px solid #c4d1c5;
+    color: #28a745;
+}
+
+.success{
+    background-color: #e6f1f9;
+    border: 1px solid #adbdc9;
+    color: #3083c5;
+}
+
+.error{
+    color: #d35f52;
+    border: 1px solid #d7bcb8;
+    background-color: #fee6e4;
+
 }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% extends "main/home_page.html" %}
+    {%load static%}
+    {%load catalog_tags%}
+
+
+</head>
+<body>
+{%block body%}
+<div class="container" style="margin-top: 60px;">
+    <div class="login">
+        <span class="login-text">Login</span>
+        <form class="login-form" method="post">
+            {%csrf_token%}
+            {{login_form.as_p}}
+            <div style="margin-top: 20px; display: flex;">
+                <input style="padding-left: 0px;" class="footer-submit" type="submit" value="Login">
+                <a class="item-href password-forgot" href>Forgot password?</a>
+            </div>
+        </form>
+        <span style="margin-left: 20px;">{{log_error}}</span>
+    </div>
+
+    <div class="registration">
+        <span class="register-text">
+            No Account? Register<br>
+        </span>
+        <label class="register-info">
+            Registration takes less than a minute but gives you full control over your orders.
+        </label>
+        <form class="registration-form" method="post">
+            {%csrf_token%}
+            {{registration_form.as_p}}
+            <div class="errors">
+                {%if registration_form.non_field_errors %}
+                <ol style="list-style:none; margin-left:-10px; margin-top: 0px;">
+                    {% for error in registration_form.non_field_errors %}
+                    <li>{{ error|escape }}</li>
+                    {% endfor %}
+                </ol>
+                {%endif%}
+                <span style="margin-left:30px;">{{reg_error}}</span>
+                <input style="position: absolute; right: 38px;" class="footer-submit" type="submit" value="Register">
+            </div>
+        </form>
+    </div>
+
+</div>
+{%endblock%}
+</body>
+</html>
