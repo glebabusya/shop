@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AnonymousUser
+from django.db import connection
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from main.views import email_check
+from main.views import email_check, email_and_search
 from . import models
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import login_required
@@ -31,11 +32,9 @@ class ItemView(View):
         return render(request, 'catalog/item.html', context)
 
     def post(self, request, item_id):
-        email_check(request, 'item', item_id)
-
-        search = request.POST.get('search')
-        if search is not None and search != '':
-            return redirect('catalog', search)
+        u_redirect = email_and_search(request, 'item')
+        if u_redirect is not None:
+            return u_redirect
 
         add_to_wishlist = request.POST.get('wishlist') == 'To Wishist'
 
@@ -110,7 +109,9 @@ class CatalogView(View):
         return render(request, 'catalog/catalog.html', context)
 
     def post(self, request, searching=None, order=None, page=1):
-        email_check(request, 'catalog', searching, order)
+        email_redirect = email_check(request, 'catalog', searching, order)
+        if email_redirect is not None:
+            return email_redirect
 
         search = request.POST.get('search')
         order = request.POST.get('selection')

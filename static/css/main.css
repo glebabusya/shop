@@ -218,12 +218,12 @@ body{
 }
 
 .login-text{
-    margin: 20px;
+    margin: 30px;
     font-size: 20px;
 }
 
 .login-form{
-    margin: 0px 10pxl;
+    margin: 0px 10px;
 }
 
 .login-form label{
@@ -350,4 +350,88 @@ body{
     border: 1px solid #d7bcb8;
     background-color: #fee6e4;
 
+}
+
+.recovery{
+    text-align: left;
+}
+
+.recovery-list{
+    padding: 0;
+    list-style: none;
+
+}
+
+.recovery-list li{
+    padding-bottom: 5px;
+}
+
+.list-counter{
+    color: #05f;
+    font-weight: bold;
+}
+
+.text-muted{
+    color:#505050;
+    font-weight: normal;
+}
+
+.card{
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+}
+
+.card-body{
+    border-bottom: 1px solid #e5e5e5;
+    padding: 1.25rem;
+}
+
+.email-for-pass{
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    width: 700px;
+    margin: 10px 0px;
+}
+
+.card-text{
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    padding-left: 20px;
+    color: #505050;
+}
+
+.card-smalltext{
+    padding-left: 20px;
+    font-weight: 200;
+    color: #505050;
+}
+
+.card-footer{
+    background-color: #f5f5f5;
+    padding: 20px 0px;
+}
+
+.card-footer .footer-submit{
+    max-width: 180px;
+}
+
+.password-change{
+
+}
+
+.password-change input{
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 9.5px 0px 9.5px 40px;
+    font-size: 16px;
+    margin: 10px 0px;
+    width: 450px;
+}
+
+.border{
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 20px;
+    width: 490px;
 }

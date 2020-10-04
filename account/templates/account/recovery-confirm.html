@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% extends "main/home_page.html" %}
+    {%load static%}
+    {%load catalog_tags%}
+
+</head>
+<body>
+{%block body%}
+<div class="container">
+    <div class="recovery">
+        <div class="text">
+            <h2 style="font-weight: 200">
+                A confirmation code has been sent to {{username}}
+            </h2>
+            <p class="text-muted">
+                Enter the received verification code
+            </p>
+        </div>
+        <form method="post">
+            {%csrf_token%}
+            <input class="email-for-pass" type="text" name="pass_key_confirm">
+            <input type="submit" style="margin-left: 0" class="footer-submit" value="confirm">
+        </form>
+    </div>
+</div>
+
+{% if messages %}
+<ul class="messages" style="margin-top: 200px;">
+    {% for message in messages %}
+    <li {%if message.tags%} class="{{ message.tags }}" {%endif%}>{%autoescape off%}{{message}}{%endautoescape%}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{%endblock%}
+</body>
+</html>

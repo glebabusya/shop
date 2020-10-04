@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'catalog',
     'main',
     'account'
+
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,11 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media'
 
 LOCALE_PATHS = ['locale']
+
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_HOST_USER = 'glebabusya@mail.ru'
+EMAIL_HOST_PASSWORD = '481526627995414Qazanisimov'
+
+AUTH_USER_MODEL = 'account.ShopUser'

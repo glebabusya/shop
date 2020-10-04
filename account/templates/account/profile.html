@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% extends "main/home_page.html" %}
+    {%load static%}
+    {%load catalog_tags%}
+
+
+</head>
+<body>
+{%block body%}
+<div>
+    {{user.username}}
+</div>
+
+{%endblock%}
+</body>
+</html>

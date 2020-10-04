@@ -19,7 +19,7 @@
             {{login_form.as_p}}
             <div style="margin-top: 20px; display: flex;">
                 <input style="padding-left: 0px;" class="footer-submit" type="submit" value="Login">
-                <a class="item-href password-forgot" href>Forgot password?</a>
+                <a class="item-href password-forgot" href="{%url 'recovery'%}">Forgot password?</a>
             </div>
         </form>
         <span style="margin-left: 20px;">{{log_error}}</span>
@@ -43,13 +43,19 @@
                     {% endfor %}
                 </ol>
                 {%endif%}
-                <span style="margin-left:30px;">{{reg_error}}</span>
                 <input style="position: absolute; right: 38px;" class="footer-submit" type="submit" value="Register">
             </div>
         </form>
     </div>
 
 </div>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {%if message.tags%} class="{{ message.tags }}" {%endif%}>{%autoescape off%}{{message}}{%endautoescape%}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 {%endblock%}
 </body>
 </html>

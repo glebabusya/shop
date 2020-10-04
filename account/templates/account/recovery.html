@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% extends "main/home_page.html" %}
+    {%load static%}
+    {%load catalog_tags%}
+
+
+</head>
+<body>
+{%block body%}
+<div class="container">
+    <div class="recovery">
+        <h2 style="font-weight: 200">
+            Forgot your password?
+        </h2>
+        <p class="text-muted">
+            Change your password in three easy steps. This helps to keep your new password secure.
+        </p>
+        <ol class="recovery-list text-muted">
+            <li>
+                <span class="list-counter">1.</span> Fill in your username below.
+            </li>
+            <li>
+                <span class="list-counter">2.</span> We'll email you a temporary code.
+            </li>
+            <li>
+                <span class="list-counter">3.</span> Use the code to change your password on our secure website.
+            </li>
+        </ol>
+        <div class="card">
+            <form method="post">
+                {%csrf_token%}
+                <div class="card-body">
+                    <label for="email-for-pass" class="card-text">Enter your username</label><br>
+                    <input id="email-for-pass" type="search" class="email-for-pass" name="username_for_pass"
+                           required><br>
+                    <small class="card-smalltext">Type in the username you used when you registered with Unishop. Then
+                        we'll email a code to email of your account.</small>
+                </div>
+                <div class="card-footer">
+                    <input class="footer-submit" type="submit" value="Get New Password">
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {%if message.tags%} class="{{ message.tags }}" {%endif%}>{%autoescape off%}{{message}}{%endautoescape%}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{%endblock%}
+</body>
+</html>
