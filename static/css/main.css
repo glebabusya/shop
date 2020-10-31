@@ -3,6 +3,7 @@ body{
     font-family: "Rubik",Helvetica,Arial,sans-serif;
     font-size: 16px;
     height: 100%;
+    overflow-x: hidden;
 }
 
 .main-content{
@@ -434,4 +435,139 @@ body{
     border-radius: 4px;
     padding: 20px;
     width: 490px;
+}
+
+.table{
+    width: 100%;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    text-align: center;
+    font-size: 14px;
+    border-collapse: collapse;
+}
+
+.table tr{
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.table th{
+    padding: .75rem;
+}
+
+.clear-cart{
+
+    height: 40px;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+    width: auto;
+}
+
+.clear-cart:hover{
+    color: white;
+    cursor: pointer;
+}
+
+.table img{
+    height: 140px;
+    width: 140px;
+}
+
+.product-info{
+    position: relative;
+    top: 50px;
+}
+
+.red{
+    color: #f44336;
+    border: 1px solid #f44336;
+}
+
+.red:hover{
+    background-color: #f44336;
+}
+
+.red:focus{
+    border-color: #f44336;
+}
+
+.blue{
+    color: #05f;
+    border: 1px solid #05f;
+}
+
+.blue:hover{
+    background-color: #05f;
+}
+
+.blue:focus{
+    border-color: #05f;
+}
+
+.coupon{
+    width: 280px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 15px;
+    margin-left: -20px;
+}
+
+.gray{
+    background-color: #ebebeb !important;
+    color: #505050 !important;
+    border-color: #e5e5e5 !important;
+    margin: 15px 0px;
+    width: auto;
+}
+
+.gray:hover{
+    background-color: #d2d2d2 !important;
+}
+
+.quantor{
+    padding: 10px;
+    text-align:center;
+    width: 80px;
+    appearance: textfield;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+}
+
+.delete-from-cart{
+    background-color: white;
+    color: red;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 0px;
+
+}
+
+.front-side{
+    z-index: 2;
+    position: absolute;
+    background-color: black;
+    top: 10%;
+    color: white;
+    left: 29%;
+    width: 800px;
+    height: 250px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    opacity: 0.8;
+    text-align: center;
+    display: flex;
+    align-items: center;
+
+}
+
+.covered-text{
+    font-size: 22px;
+    display: block;
+    margin-left:auto;
+    margin-right: auto;
 }

@@ -1,12 +1,23 @@
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.views.generic import View
+from cart.models import CartItem
 from catalog import models
 from .models import Mail
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
 LANGUAGES = ['ru', 'en']
+
+
+def generate_context(request):
+    context = {
+        'categories': models.Category.objects.all(),
+    }
+    if request.user.is_authenticated:
+        context['cart_items'] = CartItem.objects.filter(user=request.user)
+
+    return context
 
 
 def email_and_search(request, url_name, *args):
@@ -46,11 +57,10 @@ def email_check(request, url_name, *args):
 
 class MainView(View):
     def get(self, request, language=None):
-        categories = models.Category.objects.all()
+
         items = models.Item.objects.filter(featured=True)[:16]
-        context = {'categories': categories,
-                   'items': items,
-                   }
+        context = generate_context(request)
+        context['items'] = items
 
         if language in LANGUAGES:
             context['language'] = language
@@ -63,4 +73,6 @@ class MainView(View):
 
     def post(self, request):
         u_redirect = email_and_search(request, 'main')
-        return u_redirect
+        if u_redirect is not None:
+            return u_redirect
+        return redirect('catalog')

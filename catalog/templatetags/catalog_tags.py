@@ -17,17 +17,6 @@ def number_round(text):
 
 
 @register.simple_tag
-def average_price(list):
-    price = 0
-    try:
-        for item in list:
-            price += item.price()
-        return price
-    except:
-        return False
-
-
-@register.simple_tag
 def rating_amount(item, rating):
     return item.comment_set.filter(rating=rating).count()
 

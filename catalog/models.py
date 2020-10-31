@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.conf import settings
 
+
 class Brand(models.Model):
     name = models.CharField(max_length=400)
     description = models.CharField(max_length=1000, default=None, null=True)

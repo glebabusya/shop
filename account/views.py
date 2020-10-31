@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from main.views import email_and_search
+from main.views import email_and_search, generate_context
 from . import forms, models
 from .models import VarificationCode
 
@@ -26,12 +26,14 @@ ATTEMPT_AMOUNT = 0
 
 class RegLogView(View):
     def get(self, request):
+        context = generate_context(request)
+
         registration_form = forms.RegistrationForm()
         login_form = forms.LoginForm()
-        context = {
-            'registration_form': registration_form,
-            'login_form': login_form
-        }
+
+        context['registration_form'] = registration_form
+        context['login_form'] = login_form
+
         return render(request, 'account/registration.html', context)
 
     def post(self, request):
@@ -39,13 +41,13 @@ class RegLogView(View):
         if u_redirect is not None:
             return u_redirect
 
+        context = generate_context(request)
+
         login_form = forms.LoginForm(request.POST)
         registration_form = forms.RegistrationForm(request.POST)
 
-        context = {
-            'login_form': login_form,
-            'registration_form': registration_form
-        }
+        context['registration_form'] = registration_form
+        context['login_form'] = login_form
 
         if login_form.is_valid():
             data = login_form.cleaned_data
@@ -79,9 +81,8 @@ class ProfileView(LoginRequiredMixin, View):
     login_url = 'registration'
 
     def get(self, request):
-        user = request.user
-
-        return render(request, 'account/profile.html')
+        context = generate_context(request)
+        return render(request, 'account/profile.html', context)
 
     def post(self, request):
         u_redirect = email_and_search(request, 'profile')
@@ -91,7 +92,7 @@ class ProfileView(LoginRequiredMixin, View):
 
 class PasswordRecoveryView(View):
     def get(self, request):
-        context = {}
+        context = generate_context(request)
         return render(request, 'account/recovery.html', context)
 
     def post(self, request):
@@ -126,7 +127,8 @@ class PasswordRecoveryView(View):
 class RecoveryConfirmView(View):
 
     def get(self, request, username):
-        context = {'username': username}
+        context = generate_context(request)
+        context['username'] = username
         return render(request, 'account/recovery-confirm.html', context)
 
     def post(self, request, username):
@@ -134,36 +136,43 @@ class RecoveryConfirmView(View):
         if u_redirect is not None:
             return u_redirect
 
+        context = generate_context(request)
+
         pass_key_confirm = request.POST.get('pass_key_confirm')
         user = get_user_model().objects.get(username=username)
         pass_key = VarificationCode.objects.get(user=user)
 
-        if pass_key_confirm == pass_key:
+        context['username'] = username
+
+        if pass_key_confirm == str(pass_key):
             request.session['_username'] = username
             return redirect('password_change')
 
         if pass_key.attempt_amount > 2:
             pass_key.delete()
             messages.error(request, 'Too many attempts')
-            return render(request, 'account/recovery.html', )
+            return redirect('recovery')
 
         pass_key.attempt_amount += 1
         pass_key.save()
         messages.error(request, 'Invalid code')
 
-        return render(request, 'account/recovery-confirm.html', {'username': username})
+        return render(request, 'account/recovery-confirm.html', context)
 
 
 class PasswordChangeView(View):
 
     def get(self, request):
+        context = generate_context(request)
+
         form = forms.ChangePasswordForm()
         username = request.session.get('_username')
 
         if username is None:
             return redirect('registration')
 
-        context = {'form': form, 'username': username}
+        context['form'] = form
+        context['username'] = username
 
         return render(request, 'account/password-change.html', context)
 
@@ -172,10 +181,14 @@ class PasswordChangeView(View):
         if u_redirect is not None:
             return u_redirect
 
+        context = generate_context(request)
+
         form = forms.ChangePasswordForm(request.POST)
         username = request.session.get('_username')
 
-        context = {'form': form, 'username': username}
+        context['form'] = form
+        context['username'] = username
+
         if form.is_valid():
             new_password = form.cleaned_data['password']
             user = get_user_model().objects.get(username=username)

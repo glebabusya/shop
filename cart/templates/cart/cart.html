@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% extends "main/home_page.html" %}
+    {%load static%}
+    {%load catalog_tags%}
+    {%load cart_tags%}
+
+
+</head>
+<body>
+{%block body%}
+<div class="container" style="display:block">
+
+    {%if cart_items.count < 1%}
+    <div class="front-side">
+            <span class="covered-text">
+                There is no items in your cart<br>
+                Add something!
+            </span>
+
+    </div>
+    {%endif%}
+    <table class="table">
+
+        <tr>
+            <th style="text-align:left;">
+                Product Name
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Subtotal
+            </th>
+            <th>
+                Discount
+            </th>
+            <th>
+                <form method="post">
+                    {%csrf_token%}
+                    <input type="submit" value="Clear Cart" class="clear-cart red" name="clear_cart">
+                </form>
+            </th>
+        </tr>
+        <form method="post" id="update">
+            {%csrf_token%}
+            {%for item in cart_items%}
+            <tr>
+
+                <th style="display: flex;">
+                    <a href="{%url 'item' item.item.id%}">
+                        <img src="{{item.item.image_1.url}}">
+                    </a>
+                    <div class="product-info">
+                        <a style="color: black; margin-left: 15px;" class="item-href"
+                           href="{%url 'item' item.item.id%}">
+                            {{item.item.name}}<br>
+                        </a>
+                    </div>
+                </th>
+                <th><input class="quantor" type="number" value="{{item.amount}}" min="1"
+                           name="amount_{{item.item.name}}"></th>
+                <th>${%subtotal_item_price item%}</th>
+                <th>${%discount_check item%}</th>
+                <th>
+                    <input class="delete-from-cart" title="remove item" name="delete_{{item.item.name}}" value="True"
+                           type="checkbox">
+                </th>
+
+            </tr>
+            {%endfor%}
+        </form>
+        <tr>
+            <form id="coupon" method="post">
+                {%csrf_token%}
+                <td style="text-align: left; padding-left: 30px; display:flex;" colspan="3">
+                    <input class="coupon" type="search" placeholder="Coupon code" required="required" name="coupon">
+                    <input type="submit" value="Apply Coupon" class="clear-cart blue" style="margin-top: 15px;">
+                </td>
+            </form>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+                <div class="cart-topbar-total-price" style="color: #7e7e7e;">
+                    Subtotal: <span style="color: black; font-size: 16px; font-weight:bold">
+                            {%autoescape off%}{%coupon cart_items coupon%}{%endautoescape%}
+                        </span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <input form="update" type="submit" value="Update Cart" name="cart_update" class="gray footer-submit">
+            </td>
+            <td>
+                <a href="" class="blue-btn" style="font-size: 18px; text-decoration: none;">Checkout</a>
+            </td>
+        </tr>
+    </table>
+
+
+</div>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {%if message.tags%} class="{{ message.tags }}" {%endif%}>{%autoescape off%}{{message}}{%endautoescape%}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{%endblock%}
+</body>
+</html>

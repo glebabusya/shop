@@ -6,6 +6,7 @@
 
     {%load static%}
     {%load catalog_tags%}
+    {%load cart_tags%}
     <link rel="stylesheet" href="{%static 'css/header.css'%}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{%static 'css/banner.css'%}">
@@ -79,37 +80,43 @@
 
 
         <div class="tool cart-tool-dropdown">
-            <a href="">
+            <a href="{%url 'cart'%}">
 
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i><br>
-                <span class="round">{{categories.count}}</span>
+                {%if cart_items.count > 0%}
+                <span class="round">{{cart_items.count}}</span>
+                {%endif%}
                 <span>cart</span>
             </a>
             <div class="cart-tool-dropdown-content">
-                {%for item in items%}
+                {%if cart_items.count > 0%}
+                {%for item in cart_items%}
                 <div class="cart-topbar">
-                    <a href="{%url 'item' item.id%}">
-                        <img src="{{item.image_1.url}}">
+                    <a href="{%url 'item' item.item.id%}">
+                        <img src="{{item.item.image_1.url}}">
                     </a>
                     <div class="cart-topbar-info">
-                        <a style="color: black" class="item-href" href="{%url 'item' item.id%}">
-                            {{item.name | cut:20}}<br>
+                        <a style="color: black" class="item-href" href="{%url 'item' item.item.id%}">
+                            {{item.item.name | cut:20}}<br>
                         </a>
-                        <span>{{item.all.amount}} x ${{item.price}}</span>
+                        <span>{{item.amount}} x ${{item.item.price}}</span>
                     </div>
 
                 </div>
                 {%endfor%}
 
                 <div class="cart-topbar-total-price">
-                    Subtotal: <span style="color: black; font-size: 16px;">${%average_price items%}</span>
+                    Subtotal: <span style="color: black; font-size: 16px;">${%average_price cart_items%}</span>
                 </div>
 
-                <div style="font-size: 16px;padding-right: 20px; padding-left: 20px;">
+                <a style="font-size: 16px;padding-right: 20px; padding-left: 20px;" href="{%url 'cart'%}">
                     <h3 class="blue-btn">expand cart</h3>
-                </div>
-
+                </a>
             </div>
+            {%else%}
+            <span>There are no items in your cart </span>
+            {%endif%}
+        </div>
         </div>
     </div>
 </header>

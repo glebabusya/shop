@@ -2,7 +2,9 @@ from django.contrib.auth.models import AnonymousUser
 from django.db import connection
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from main.views import email_check, email_and_search
+
+from cart.views import adding_to_cart
+from main.views import email_check, email_and_search, generate_context
 from . import models
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import login_required
@@ -19,16 +21,19 @@ ORDERING = {
 
 class ItemView(View):
     def get(self, request, item_id):
+        context = generate_context(request)
+
         item = models.Item.objects.get(id=item_id)
-        categories = models.Category.objects.all()
+        context['item'] = item
+
         items = models.Item.objects.filter(featured=True)[:4]
-        context = {'item': item,
-                   'categories': categories,
-                   'marks': [5, 4, 3, 2, 1],
-                   'items': items
-                   }
-        comments = models.Comment.objects.filter(item=item)
-        context['comments'] = comments[:2]
+        context['items'] = items
+
+        context['marks'] = [5, 4, 3, 2, 1]
+
+        comments = models.Comment.objects.filter(item=item)[:2]
+        context['comments'] = comments
+
         return render(request, 'catalog/item.html', context)
 
     def post(self, request, item_id):
@@ -38,15 +43,21 @@ class ItemView(View):
 
         add_to_wishlist = request.POST.get('wishlist') == 'To Wishist'
 
-        add_to_cart = request.POST.get('selection')
+        amount_to_cart = request.POST.get('selection')
 
         if add_to_wishlist:
             if request.user.is_authenticated:
+                """
+                    functional
+                """
                 messages.info(request, '<i class="fa fa-check-circle-o" aria-hidden="true"></i> Added to Wishlist')
             else:
-                messages.error(request, 'Login or Register')
-        if isinstance(add_to_cart, str):
+                messages.error(request, '<i class="fa fa-ban" aria-hidden="true"></i> Login or Register')
+
+        if isinstance(amount_to_cart, str):
             if request.user.is_authenticated:
+                adding_to_cart(user=request.user, item=models.Item.objects.get(id=item_id), amount=int(amount_to_cart))
+
                 messages.success(request, '<i class="fa fa-check-circle-o" aria-hidden="true"></i> Added to Cart')
             else:
                 messages.error(request, '<i class="fa fa-ban" aria-hidden="true"></i> Login or Register')
@@ -55,19 +66,18 @@ class ItemView(View):
 
 class CatalogView(View):
     def get(self, request, searching=None, order=None, page=1):
-
+        context = generate_context(request)
         try:
             ordering = ORDERING[order]
         except KeyError:
             ordering = 'name'
 
         categories = models.Category.objects.all().order_by('name')
+        context['categories'] = categories
 
-        context = {
-            'ordering': ordering,
-            'categories': categories,
-            'searching': searching,
-        }
+        context['ordering'] = ordering
+
+        context['searching'] = searching
 
         if searching is not None and searching != '' and searching != 'None':
             # Фильтрация и упорядочивание поиска
