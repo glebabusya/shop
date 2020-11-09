@@ -3,6 +3,8 @@ from django.db import connection
 from django.shortcuts import render, redirect
 from django.views.generic import View
 
+from account.models import FavoriteItem
+from account.views.profile import adding_to_wishlist
 from cart.views import adding_to_cart
 from main.views import email_check, email_and_search, generate_context
 from . import models
@@ -47,9 +49,7 @@ class ItemView(View):
 
         if add_to_wishlist:
             if request.user.is_authenticated:
-                """
-                    functional
-                """
+                adding_to_wishlist(user=request.user, item=models.Item.objects.get(id=item_id))
                 messages.info(request, '<i class="fa fa-check-circle-o" aria-hidden="true"></i> Added to Wishlist')
             else:
                 messages.error(request, '<i class="fa fa-ban" aria-hidden="true"></i> Login or Register')

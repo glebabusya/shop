@@ -552,8 +552,9 @@ body{
     background-color: black;
     top: 10%;
     color: white;
-    left: 29%;
-    width: 800px;
+    left: auto;
+    right: auto;
+    width: 820px;
     height: 250px;
     border: 1px solid #e5e5e5;
     border-radius: 5px;
@@ -570,4 +571,119 @@ body{
     display: block;
     margin-left:auto;
     margin-right: auto;
+}
+
+.user-side{
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    width: 360px;
+    height: 338px;
+}
+
+.user-info-wrapper{
+    position: relative;
+    width: 100%;
+    padding-top: 90px;
+}
+
+.user-cover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-position: center;
+    background-color: #f5f5f5;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 120px;
+    z-index: 0;
+
+}
+
+.user-info{
+    position: relative;
+    z-index: 5;
+    padding: 0px 20px;
+    display: flex;
+    width: 100%;
+}
+
+.user-avatar img{
+    height: 115px;
+    width: 115px;
+    border: 5px solid #fff;
+    border-radius: 50%;
+}
+
+.user-data{
+    padding-top: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.info-side{
+    width: 720px;
+    padding: 20px;
+    padding-top: 0px;
+}
+
+.list-group{
+    display: flex;
+    flex-direction: column;
+}
+
+.list-item{
+    font-weight: 500;
+    color: #505050;
+    padding: 10px 30px;
+    border-top: 1px solid #e5e5e5;
+    text-decoration: none;
+}
+
+.active{
+    color: #05f;
+    cursor: default;
+    border-left: 2px solid #05f;
+}
+
+.profile-form{
+    color: #7e7e7e;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profile-input{
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    width: 280px;
+}
+
+.profile-form p{
+    width: 340px;
+}
+
+.be-informed{
+    display: none;
+}
+
+.profile-checkbox{
+    height:17px;
+    width: 17px;
+    margin-top: 40px;
+}
+
+.border-top{
+    width: 100%;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 15px;
+    text-align: right;
+}
+
+.border-top input{
+    width: auto;
+}
+
+.product-thumb img{
+    width: 100px;
+    height: 110px;
 }

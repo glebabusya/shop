@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% extends "main/home_page.html" %}
+    {%load static%}
+    {%load catalog_tags%}
+    {%load cart_tags%}
+
+</head>
+<body>
+{%block body%}
+<div class="container">
+    <div class="user-side">
+        <div class="user-info-wrapper">
+            <div style="background-image:url({%static 'images/user-cover-img.jpg'%})" class="user-cover">
+            </div>
+
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="{{user.avatar.url}}">
+                </div>
+
+                <div class="user-data">
+                    <h3 style="font-weight: 100; margin-bottom: 2px;">{{user.first_name}} {{user.last_name}}</h3>
+                    <span class="muted-text" style="padding-right:0; font-size: 12px">Ph. n.{{user.phone_number}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="list-group">
+            <a href="{%url 'orders'%}" class="list-item">
+                Orders
+            </a>
+
+            <a href="{%url 'profile'%}" class="list-item">
+                Profile
+            </a>
+
+            <a href="{%url 'wishlist'%}" class="list-item active">
+                Wishlist
+            </a>
+        </div>
+    </div>
+
+    <div class="info-side">
+        <table class="table">
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    <form method="post">
+                        {%csrf_token%}
+                        <input type="submit" value="Clear Wishlist" class="clear-cart red" name="clear_wishlist">
+                    </form>
+                </th>
+            </tr>
+            <form id="update" method="post">
+                {%csrf_token%}
+                {%for item in f_items%}
+                <tr>
+                    <th style="display: flex;">
+                        <a href="{%url 'item' item.item.id%}">
+                            <img src="{{item.item.image_1.url}}">
+                        </a>
+                        <div class="product-info">
+                            <a style="color: black; margin-left: 15px;" class="item-href"
+                               href="{%url 'item' item.item.id%}">
+                                {{item.item.name}}<br>
+                            </a>
+                            <label style="padding-left: 10px">${{item.item.price}}</label>
+                        </div>
+                    </th>
+                    <th>
+                        <input class="delete-from-cart" title="remove item" name="delete_{{item.item.name}}"
+                               value="True" type="checkbox">
+                    </th>
+                </tr>
+                {%endfor%}
+                <tr>
+                    <td></td>
+                    <td>
+                        <input style="max-width: none;" form="update" type="submit" value="Update WishList"
+                               name="cart_update" class="gray footer-submit">
+                    </td>
+            </form>
+
+        </table>
+    </div>
+
+</div>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {%if message.tags%} class="{{ message.tags }}" {%endif%}>{%autoescape off%}{{message}}{%endautoescape%}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{%endblock%}
+</body>
+</html>

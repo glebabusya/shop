@@ -30,11 +30,11 @@
         </div>
 
         <div class="list-group">
-            <a href="{%url 'orders'%}" class="list-item">
+            <a href="{%url 'orders'%}" class="list-item active  ">
                 Orders
             </a>
 
-            <a href="{%url 'profile'%}" class="list-item active">
+            <a href="{%url 'profile'%}" class="list-item">
                 Profile
             </a>
 
@@ -43,26 +43,12 @@
             </a>
         </div>
     </div>
-
     <div class="info-side">
-        <form class="profile-form" method="post" enctype="multipart/form-data">
-            {%csrf_token%}
-            {{form.as_p}}
-            <div class="border-top">
-                <input type="submit" class="blue-btn" value="Update Profile">
-            </div>
-
-        </form>
+        {{user.email}}
     </div>
 
 </div>
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li {%if message.tags%} class="{{ message.tags }}" {%endif%}>{%autoescape off%}{{message}}{%endautoescape%}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+
 {%endblock%}
 </body>
 </html>

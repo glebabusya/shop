@@ -9,8 +9,8 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from main.views import email_and_search, generate_context
-from . import forms, models
-from .models import VarificationCode
+from .. import forms
+from ..models import VarificationCode
 
 
 def hash_key(amount):
@@ -75,19 +75,6 @@ class RegLogView(View):
                 messages.error(request, 'Пользователь с такими данными уже существует')
 
         return render(request, 'account/registration.html', context)
-
-
-class ProfileView(LoginRequiredMixin, View):
-    login_url = 'registration'
-
-    def get(self, request):
-        context = generate_context(request)
-        return render(request, 'account/profile.html', context)
-
-    def post(self, request):
-        u_redirect = email_and_search(request, 'profile')
-        if u_redirect is not None:
-            return u_redirect
 
 
 class PasswordRecoveryView(View):
