@@ -28,7 +28,6 @@ class Item(models.Model):
     description = models.CharField(max_length=3000, default=None, null=True)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
     featured = models.BooleanField(default=False)
-    # images
     image_1 = models.ImageField(upload_to='images %y-%m-%d-%H', null=True, default=None)
     image_2 = models.ImageField(upload_to='images %y-%m-%d-%H', null=True, default=None)
     image_3 = models.ImageField(upload_to='images %y-%m-%d-%H', null=True, default=None)
@@ -37,11 +36,11 @@ class Item(models.Model):
         return f'{str(self.category)}-{self.name}'
 
     def price(self):
-        """Определение итоговой цены товара"""
+        """Determining the final price of an item"""
         return self.original_price - (self.original_price * self.discount / 100)
 
     def absolute_rating(self):
-        """Определение среднего рейтинга товара"""
+        """Determining the average rating of a product"""
         comments = Comment.objects.filter(item=self)
         sum_rating = 0
         for comment in comments:
@@ -53,7 +52,7 @@ class Item(models.Model):
 
 
 def rating_check(rate):
-    """Валидация рейтинга"""
+    """Rating validation"""
     if rate < 0 or rate > 5:
         raise ValidationError('Слишком большой рейтинг')
 

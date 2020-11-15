@@ -1,9 +1,6 @@
 import random
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.handlers import exception
 from django.core.mail import send_mail
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
@@ -11,9 +8,11 @@ from django.views.generic import View
 from main.views import email_and_search, generate_context
 from .. import forms
 from ..models import VarificationCode
+from django.contrib.auth import logout
 
 
 def hash_key(amount):
+    """function of generating key to restore the password"""
     result = ''
     variants = 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789'
     for symbol in range(amount):
@@ -21,11 +20,9 @@ def hash_key(amount):
     return result
 
 
-ATTEMPT_AMOUNT = 0
-
-
 class RegLogView(View):
     def get(self, request):
+        logout(request)
         context = generate_context(request)
 
         registration_form = forms.RegistrationForm()
@@ -49,7 +46,7 @@ class RegLogView(View):
         context['registration_form'] = registration_form
         context['login_form'] = login_form
 
-        if login_form.is_valid():
+        if login_form.is_valid():  # login
             data = login_form.cleaned_data
             user = authenticate(
                 username=data['user_login'],
@@ -61,7 +58,7 @@ class RegLogView(View):
             else:
                 messages.error(request, 'Incorrect password')
 
-        if registration_form.is_valid():
+        if registration_form.is_valid():  # registration
             data = registration_form.cleaned_data
             try:
                 user = get_user_model().objects.create_user(
@@ -70,7 +67,7 @@ class RegLogView(View):
                     password=data['password']
                 )
                 user.save()
-                return redirect('main')
+                return redirect('profile')
             except IntegrityError:
                 messages.error(request, 'Пользователь с такими данными уже существует')
 
@@ -95,8 +92,6 @@ class PasswordRecoveryView(View):
             messages.error(request, 'No such user')
             return render(request, 'account/recovery.html')
 
-        email_to_pass = user.email
-
         try:
             code = VarificationCode.objects.get(user=user)
             code.delete()
@@ -106,7 +101,7 @@ class PasswordRecoveryView(View):
         pass_key = VarificationCode(user=user, hash_key=hash_key(6), attempt_amount=0)
         pass_key.save()
 
-        send_mail('bot', str(pass_key), 'glebabusya@mail.ru', [email_to_pass])
+        send_mail('bot', str(pass_key), 'glebabusya@mail.ru', [user.email])
 
         return redirect('recovery_confirm', user)
 

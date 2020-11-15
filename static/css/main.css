@@ -640,6 +640,10 @@ body{
     text-decoration: none;
 }
 
+.list-item:hover{
+    color: #05f;
+}
+
 .active{
     color: #05f;
     cursor: default;

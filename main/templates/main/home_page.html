@@ -61,7 +61,20 @@
                 <i class="fa fa-user-o" aria-hidden="true"></i><br>
                 <span>sign in / up</span>
             </a>
+
             <div class="user-tool-dropdown-content">
+                {%if request.user.is_authenticated%}
+                <div style="display: flex;">
+
+                    <img class="user-avatar-small" src="{{request.user.avatar.url}}">
+                    <div class="user-info-small">
+                        <p class="user-info-small-inner">{{request.user.first_name}} {{request.user.last_name}}</p>
+                        <a class="change-profile" href="{%url 'profile'%}">Change profile</a><br>
+                        <a class="logout" href="{%url 'registration'%}">Log Out</a>
+                    </div>
+
+                </div>
+                {%else%}
                 <p style="margin-bottom: -10px;">Sign in to your account or register new one to have full control over
                     your orders, receive bonuses and more.</p><br>
                 <a href="{%url 'registration'%}">
@@ -75,7 +88,9 @@
                         register
                     </a>
                 </p>
+                {%endif%}
             </div>
+
         </div>
 
 

@@ -7,7 +7,7 @@ from account.models import FavoriteItem
 from account.views.profile import adding_to_wishlist
 from cart.views import adding_to_cart
 from main.views import email_check, email_and_search, generate_context
-from . import models
+from . import models, forms
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -93,7 +93,7 @@ class CatalogView(View):
             filtered_items = models.Item.objects.filter(featured=True)
 
         paginator = Paginator(filtered_items, 12)
-
+        # Paginating
         try:
             items = paginator.page(page)
             context['items'] = items
@@ -132,3 +132,32 @@ class CatalogView(View):
             return redirect('catalog', searching, order, 1)
 
         return redirect('catalog')
+
+
+class CommentView(View):
+    def get(self, request, item_id):
+        context = generate_context(request)
+        item = models.Item.objects.get(pk=item_id)
+        comments = models.Comment.objects.filter(item=item)
+        form = forms.CommentForm()
+
+        context['item'] = item
+        context['comments'] = comments
+        context['form'] = form
+        return render(request, 'catalog/comments.html', context)
+
+    def post(self, request, item_id):
+        email_redirect = email_and_search(request, 'comments')
+        if email_redirect is not None:
+            return email_redirect
+
+        form = forms.CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+
+            new_comment.item = models.Item.objects.get(pk=item_id)
+            new_comment.user = request.user
+            new_comment.save()
+
+            form.save()
+        return redirect('item', item_id)

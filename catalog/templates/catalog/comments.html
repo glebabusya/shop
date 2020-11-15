@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% extends "main/home_page.html" %}
+    {%load static%}
+    {%load catalog_tags%}
+</head>
+<body>
+{%block body%}
+<a class="top-fixed" href="{%url 'item' item.id%}">&lt Back</a>
+<div class="container" style="display: block">
+    <div style="border-bottom: 1px solid #e5e5e5">
+        {%for comment in comments%}
+        {%if comment.comment is not None%}
+        <div class="comment">
+            <img src="{{request.user.avatar.url}}">
+            <div class="comment-body">
+                <div class="comment-txt">
+                    <span class="comment-inner">{{comment.comment}}</span>
+                    <div class="rating">
+                        {%if comment.rating > 0%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                        {%if comment.rating > 1%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                        {%if comment.rating > 2%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                        {%if comment.rating > 3%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                        {%if comment.rating > 4%} ☆ {%else%} <span style="color:#e5e5e5;"> ☆ </span> {%endif%}
+                    </div>
+                </div>
+                <div class="muted-text bottom">
+                    {{comment.user}}
+                </div>
+            </div>
+        </div>
+        {%endif%}
+        {%endfor%}
+
+    </div>
+
+    <form method="post" class="comment-form">
+        {%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" class="footer-submit blue comment-submit" value="Submit Review">
+    </form>
+</div>
+{%endblock%}
+</body>
+</html>

@@ -11,6 +11,7 @@ LANGUAGES = ['ru', 'en']
 
 
 def generate_context(request):
+    """function of getting initial context"""
     context = {
         'categories': models.Category.objects.all(),
     }
@@ -21,6 +22,7 @@ def generate_context(request):
 
 
 def email_and_search(request, url_name, *args):
+    """function of adding email to send news and of searching items"""
     email = request.POST.get('mail_to_send')
     search = request.POST.get('search')
 
@@ -41,6 +43,7 @@ def email_and_search(request, url_name, *args):
 
 
 def email_check(request, url_name, *args):
+    """adding Email to send news"""
     email = request.POST.get('mail_to_send')
     if email is not None:
         try:

@@ -9,6 +9,7 @@ from . import models
 
 
 def adding_to_cart(user, item, amount):
+    """function of adding items to cart"""
     try:
         item = models.CartItem.objects.get(user=user, item=item)
 
@@ -20,7 +21,6 @@ def adding_to_cart(user, item, amount):
     item.save()
 
 
-# Create your views here.
 class CartView(LoginRequiredMixin, View):
     login_url = 'registration'
 
@@ -44,7 +44,7 @@ class CartView(LoginRequiredMixin, View):
         post = request.POST
         user = request.user
 
-        for key, value in post.items():
+        for key, value in post.items():  # updating items in cart
             if key[:5] == 'clear':
                 models.CartItem.objects.all().delete()
 

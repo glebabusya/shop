@@ -14,6 +14,7 @@ from ..models import VarificationCode, FavoriteItem
 
 
 def adding_to_wishlist(item, user):
+    """function of adding item in wish list"""
     try:
         models.FavoriteItem.objects.get(item=item, user=user)
     except models.FavoriteItem.DoesNotExist:
@@ -79,10 +80,9 @@ class WishListView(LoginRequiredMixin, View):
             return u_redirect
 
         user = request.user
-
         post = request.POST
 
-        for key, value in post.items():
+        for key, value in post.items():  # updating wish list
             if key[:5] == 'clear':
                 models.FavoriteItem.objects.all().delete()
 

@@ -59,5 +59,5 @@ class VarificationCode(models.Model):
 
 
 class FavoriteItem(models.Model):
-    item = models.ForeignKey('catalog.Item', on_delete=models.CASCADE, )
+    item = models.ForeignKey('catalog.Item', on_delete=models.CASCADE)
     user = models.ForeignKey('ShopUser', on_delete=models.CASCADE)

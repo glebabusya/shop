@@ -103,9 +103,11 @@
             </div>
             {%endfor%}
             <a class="item-href" href>
-                <div class="review">
-                    Leave a Review
-                </div>
+                <a style="text-decoration:none;" href="{%url 'comments' item.id%}">
+                    <div class="review">
+                        Leave a Review
+                    </div>
+                </a>
             </a>
         </div>
     </div>
@@ -116,7 +118,7 @@
         </h3>
         {%for comment in comments%}
         <div class="comment">
-            <img src="{%static 'images/user.jpg'%}">
+            <img src="{{request.user.avatar.url}}">
             <div class="comment-body">
                 <div class="comment-txt">
                     {{comment.comment}}
@@ -134,7 +136,7 @@
             </div>
         </div>
         {%endfor%}
-        <a href class="item-href">
+        <a href="{%url 'comments' item.id%}" class="item-href">
             <div class="all-reviews">
                 View All Reviews
             </div>
