@@ -4,7 +4,6 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from catalog.models import Item
 from .managers import CustomUserManager
 
 
@@ -24,7 +23,7 @@ class ShopUser(AbstractUser):
     first_name = models.CharField(default=None, null=True, blank=True, max_length=20)
     last_name = models.CharField(default=None, null=True, blank=True, max_length=20)
     phone_number = models.CharField(default=None, null=True, blank=True, max_length=20, )
-    avatar = models.ImageField(default='/media/users/user.jpg', upload_to='users')
+    avatar = models.ImageField(default='/users/user.jpg', upload_to='users')
     send_news = models.BooleanField(default=True)
 
     EMAIL_FIELD = 'email'
@@ -60,4 +59,4 @@ class VarificationCode(models.Model):
 
 class FavoriteItem(models.Model):
     item = models.ForeignKey('catalog.Item', on_delete=models.CASCADE)
-    user = models.ForeignKey('ShopUser', on_delete=models.CASCADE)
+    user = models.ForeignKey(ShopUser, on_delete=models.CASCADE)

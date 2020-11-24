@@ -6,7 +6,7 @@
     {% extends "main/home_page.html" %}
     {%load static%}
     {%load catalog_tags%}
-
+    {%load profile_tags%}
 
 </head>
 <body>
@@ -23,8 +23,14 @@
                 </div>
 
                 <div class="user-data">
-                    <h3 style="font-weight: 100; margin-bottom: 2px;">{{user.first_name}} {{user.last_name}}</h3>
-                    <span class="muted-text" style="padding-right:0; font-size: 12px">Ph. n.{{user.phone_number}}</span>
+                    <h3 style="font-weight: 100; margin-bottom: 2px;">
+                        {%full_name user%}
+                    </h3>
+                    {%if user.phone_number%}
+                    <span class="muted-text" style="padding-right:0; font-size: 12px">
+                            Ph. n.{{user.phone_number}}
+                        </span>
+                    {%endif%}
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from cart.models import CartItem
 from catalog import models
-from .models import Mail
+from .models import MailToSendNews
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
@@ -28,7 +28,7 @@ def email_and_search(request, url_name, *args):
 
     if email is not None:
         try:
-            mail = Mail(mail=email)
+            mail = MailToSendNews(mail=email)
             mail.save()
         except IntegrityError:
             pass
@@ -47,12 +47,12 @@ def email_check(request, url_name, *args):
     email = request.POST.get('mail_to_send')
     if email is not None:
         try:
-            mail = Mail(mail=email)
+            mail = MailToSendNews(mail=email)
             mail.save()
         except IntegrityError:
             pass
         if len(args) > 1:
-            return redirect(url_name, args)
+            return redirect(url_name, args[0], args[1])
         if len(args) == 1:
             return redirect(url_name, args[0])
         return redirect(url_name)

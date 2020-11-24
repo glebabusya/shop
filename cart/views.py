@@ -5,6 +5,7 @@ from django.contrib import messages
 
 from catalog.models import Item
 from main.views import email_and_search, generate_context
+from order.models import OrderItem, Order
 from . import models
 
 
@@ -29,7 +30,7 @@ class CartView(LoginRequiredMixin, View):
         try:
             coupon = models.Coupon.objects.get(name=request.session.get('_coupon'))
         except models.Coupon.DoesNotExist:
-            coupon = 0
+            coupon = None
         context['coupon'] = coupon
 
         return render(request, 'cart/cart.html', context)
@@ -43,10 +44,11 @@ class CartView(LoginRequiredMixin, View):
 
         post = request.POST
         user = request.user
+        items = models.CartItem.objects.filter(user=user)
 
         for key, value in post.items():  # updating items in cart
             if key[:5] == 'clear':
-                models.CartItem.objects.all().delete()
+                items.delete()
 
             if key[:6] == 'delete':
                 item = Item.objects.get(name=key[7:])
@@ -59,6 +61,16 @@ class CartView(LoginRequiredMixin, View):
 
                 add_item.save()
 
+            if key[:4] == 'make':
+                order = Order(user=user)
+                order.save()
+                for item in items:
+                    order_item = OrderItem(item=item.item, amount=item.amount)
+                    order_item.save()
+                    order.items.add(order_item.id)
+                    order.save()
+                items.delete()
+                return redirect('checkout')
         try:
             models.Coupon.objects.get(name=request.session.get('_coupon'))
             messages.success(request, 'Coupon applied')

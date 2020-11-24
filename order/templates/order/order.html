@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% extends "main/home_page.html" %}
+    {%load static%}
+    {%load catalog_tags%}
+    {%load cart_tags%}
+
+</head>
+<body>
+{%block body%}
+<div class="container">
+    <div style="min-width: 700px;">
+        <h3 style="margin 0: auto">
+            Order No - #{{order.id}}
+        </h3>
+        <table class="table">
+            <tr>
+                <th>Product name</th>
+                <th>Subtotal</th>
+            </tr>
+            {%for item in order.items.all%}
+            <tr>
+                <th style="display: flex;">
+                    <a href="{%url 'item' item.item.id%}">
+                        <img src="{{item.item.image_1.url}}">
+                    </a>
+                    <div class="product-info">
+                        <a style="color: black; margin-left: 15px;" class="item-href"
+                           href="{%url 'item' item.item.id%}">
+                            {{item.item.name}}<br>
+                        </a> <span>x {{item.amount}}</span>
+                    </div>
+                </th>
+                <th>
+                    ${%subtotal_item_price item%}
+                </th>
+            </tr>
+            {%endfor%}
+        </table>
+        <div style="display: flex; padding-bottom: 30px;">
+            <div class="order-footer">
+                {%autoescape off%}
+                Total: {%coupon order.items.all order.coupon%}
+                {%endautoescape%}
+            </div>
+
+            {%if order.coupon%}
+            <div class="order-footer-coupon">
+                Coupon: {{order.coupon}}
+            </div>
+            {%endif%}
+        </div>
+
+    </div>
+</div>
+{%endblock%}
+</body>

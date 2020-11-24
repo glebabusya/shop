@@ -8,7 +8,10 @@ from django.core.mail import send_mail
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.views.generic import View
+
+from catalog.models import Item
 from main.views import email_and_search, generate_context
+from order.models import Order
 from .. import forms, models
 from ..models import VarificationCode, FavoriteItem
 
@@ -27,12 +30,17 @@ class OrdersView(LoginRequiredMixin, View):
 
     def get(self, request):
         context = generate_context(request)
+        orders = Order.objects.filter(user=request.user)
+
+        context['orders'] = orders
         return render(request, 'account/orders.html', context)
 
     def post(self, request):
         u_redirect = email_and_search(request, 'orders')
         if u_redirect is not None:
             return u_redirect
+
+        return redirect('orders')
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -84,9 +92,9 @@ class WishListView(LoginRequiredMixin, View):
 
         for key, value in post.items():  # updating wish list
             if key[:5] == 'clear':
-                models.FavoriteItem.objects.all().delete()
+                models.FavoriteItem.objects.filter(user=user).delete()
 
             if key[:6] == 'delete':
-                item = models.Item.objects.get(name=key[7:])
+                item = Item.objects.get(name=key[7:])
                 models.FavoriteItem.objects.get(user=user, item=item).delete()
         return redirect('wishlist')

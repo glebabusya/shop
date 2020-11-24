@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'catalog',
     'main',
     'account',
-    'cart'
+    'cart',
+    'order'
 
 ]
 

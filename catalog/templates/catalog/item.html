@@ -111,14 +111,14 @@
             </a>
         </div>
     </div>
-    {%if comments.count > 0%}
+    {%if comments_amount > 0%}
     <div class="comments-block">
         <h3 class="reviews">
             Latest Reviews
         </h3>
         {%for comment in comments%}
         <div class="comment">
-            <img src="{{request.user.avatar.url}}">
+            <img src="{{comment.user.avatar.url}}">
             <div class="comment-body">
                 <div class="comment-txt">
                     {{comment.comment}}

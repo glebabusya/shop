@@ -27,6 +27,6 @@ def discount_check(item):
 @register.simple_tag
 def coupon(items, coupon):
     price = average_price(items)
-    if coupon != 0:
+    if coupon:
         return f'<span class="muted-text text-crossed">${price}</span> <span>${(price * (1 - coupon.discount / 100)).__round__(4)}</span>'
-    return price.__round__(4)
+    return f'${price.__round__(4)}'

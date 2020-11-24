@@ -2,7 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.db import connection
 from django.shortcuts import render, redirect
 from django.views.generic import View
-
+from django.utils.decorators import method_decorator
 from account.models import FavoriteItem
 from account.views.profile import adding_to_wishlist
 from cart.views import adding_to_cart
@@ -33,8 +33,16 @@ class ItemView(View):
 
         context['marks'] = [5, 4, 3, 2, 1]
 
-        comments = models.Comment.objects.filter(item=item)[:2]
-        context['comments'] = comments
+        comments = models.Comment.objects.filter(item=item)
+
+        context_comments = []
+        for comment in comments:
+            if comment.comment is not None:
+                context_comments.append(comment)
+
+        context['comments'] = context_comments[:2]
+
+        context['comments_amount'] = len(context_comments[:2])
 
         return render(request, 'catalog/item.html', context)
 
@@ -136,6 +144,7 @@ class CatalogView(View):
 
 class CommentView(View):
     def get(self, request, item_id):
+        print(request.user.has_perm('account.delete_shop_user'))
         context = generate_context(request)
         item = models.Item.objects.get(pk=item_id)
         comments = models.Comment.objects.filter(item=item)
@@ -146,18 +155,24 @@ class CommentView(View):
         context['form'] = form
         return render(request, 'catalog/comments.html', context)
 
+    @method_decorator(login_required(login_url='registration'))
     def post(self, request, item_id):
         email_redirect = email_and_search(request, 'comments')
         if email_redirect is not None:
             return email_redirect
-
         form = forms.CommentForm(request.POST)
-        if form.is_valid():
-            new_comment = form.save(commit=False)
+        user = request.user
+        print(dir(user))
+        print(user.groups.all())
+        item = models.Item.objects.get(id=item_id)
+        try:
+            models.Comment.objects.get(user=request.user, item=item)
+        except models.Comment.DoesNotExist:
+            if form.is_valid():
+                print(user)
+                data = form.cleaned_data
+                print(data)
+                comment = models.Comment(user=user, item=item, comment=data['comment'], rating=data['rating'])
+                comment.save()
 
-            new_comment.item = models.Item.objects.get(pk=item_id)
-            new_comment.user = request.user
-            new_comment.save()
-
-            form.save()
         return redirect('item', item_id)

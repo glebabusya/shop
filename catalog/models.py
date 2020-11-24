@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.conf import settings
 
+from account.models import ShopUser
+
 
 class Brand(models.Model):
     name = models.CharField(max_length=400)
@@ -58,10 +60,10 @@ def rating_check(rate):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
     comment = models.CharField(max_length=2000, null=True, default=None, blank=True)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_query_name="comment")
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_query_name="comment", default=1)
     rating = models.IntegerField(validators=[rating_check])
 
     def __str__(self):
-        return f'комментарий от {self.user} на {str(self.item)}: {self.comment[:15]} '
+        return f'комментарий от {self.user} на {str(self.item)}: {self.comment[:15] if self.comment is not None else ""} '

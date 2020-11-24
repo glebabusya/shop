@@ -1,4 +1,6 @@
 from django.urls import path, include
+
+from order.views import OrderView
 from .views import registration, profile
 
 urlpatterns = [path('registration', registration.RegLogView.as_view(), name='registration'),
@@ -9,5 +11,6 @@ urlpatterns = [path('registration', registration.RegLogView.as_view(), name='reg
 
                path('orders', profile.OrdersView.as_view(), name='orders'),
                path('profile', profile.ProfileView.as_view(), name='profile'),
-               path('wishlist', profile.WishListView.as_view(), name='wishlist')
+               path('wishlist', profile.WishListView.as_view(), name='wishlist'),
+               path('order/<int:order_id>', OrderView.as_view(), name='order')
                ]

@@ -7,6 +7,7 @@
     {%load static%}
     {%load catalog_tags%}
     {%load cart_tags%}
+    {%load profile_tags%}
     <link rel="stylesheet" href="{%static 'css/header.css'%}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{%static 'css/banner.css'%}">
@@ -68,7 +69,9 @@
 
                     <img class="user-avatar-small" src="{{request.user.avatar.url}}">
                     <div class="user-info-small">
-                        <p class="user-info-small-inner">{{request.user.first_name}} {{request.user.last_name}}</p>
+                        <p class="user-info-small-inner">
+                            {%full_name request.user%}
+                        </p>
                         <a class="change-profile" href="{%url 'profile'%}">Change profile</a><br>
                         <a class="logout" href="{%url 'registration'%}">Log Out</a>
                     </div>

@@ -15,7 +15,7 @@
         {%for comment in comments%}
         {%if comment.comment is not None%}
         <div class="comment">
-            <img src="{{request.user.avatar.url}}">
+            <img src="{{comment.user.avatar.url}}">
             <div class="comment-body">
                 <div class="comment-txt">
                     <span class="comment-inner">{{comment.comment}}</span>

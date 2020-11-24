@@ -145,6 +145,7 @@ input:focus{
     right: 0;
     padding: 0px 15px 0px 15px;
     color: #505050;
+    z-index: 5;
 }
 
 .blue-btn{
